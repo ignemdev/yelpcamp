@@ -1,0 +1,25 @@
+<%include ../partials/header%>
+	<h1 class="text-center">Editing comment
+	</h1>
+
+	<section class="container-fluid py-4">
+		<div class="row justify-content-center">
+			<div class="col-12 col-md-8">
+
+				<form action="/campgrounds/<%=campgroundId%>/comments/<%=comment.id%>?_method=PUT" method="post" class="my-2">
+					<div class="form-row">
+						<div class="col-12">
+							<div class="form-group">
+								<label for="text">Text:</label>
+								<textarea class="form-control" id="text" rows="6" name="comment[text]" placeholder="Comment"><%=comment.text%></textarea>
+							</div>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary btn-lg btn-block">Save comment</button>
+				</form>
+				<a href="/campgrounds/<%=campgroundId%>" class="btn btn-primary btn-lg btn-block">Go Back</a>
+
+			</div>
+		</div>
+	</section>
+	<%include ../partials/footer%>

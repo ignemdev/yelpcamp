@@ -1,0 +1,113 @@
+<%include ../partials/header%>
+	<section class="container-fluid">
+		<div class="row">
+			<div class="col-md-3">
+				<div class="list-group">
+					<a href="/campgrounds/<%=campground.id%>" class="list-group-item list-group-item-action rounded-0 active"><i class="fas fa-info-circle mr-2"></i>Overview
+					</a>
+										<a href="/campgrounds" class="list-group-item list-group-item-action rounded-0"><i class="fas fa-campground mr-2"></i>Campgrounds
+					</a>
+				</div>
+			</div>
+			<div class="col-md-9">
+				<div class="card rounded-0 bg-dark text-white">
+					<img src="<%=campground.image%>" class="card-img" alt="<%=campground.name%>">
+					<%if(currentUser && campground.author.id.equals(currentUser._id)){%>
+						<div class="card-img-overlay">
+							<p class="card-text text-right">
+								<a tabindex="0" class="btn btn-success p-0 p-2 rounded-0 text-nowrap" role="button" data-toggle="popover" data-trigger="click" title="Options" data-html="true" data-sanitize="false" data-container="body" data-content='<a class="w-100 btn btn-outline-success border-0 p-2 rounded-0" href="/campgrounds/<%=campground.id%>/edit"><i class="fas fa-pencil-alt mr-2"></i>Edit</a><form action="/campgrounds/<%=campground.id%>?_method=DELETE" method="post">
+							<button class="btn btn-outline-danger w-100 p-2 border-0 rounded-0"><i class="fas fa-eraser mr-2"></i>Delete</button>
+						</form>
+						' data-template='<div class="popover border-0 rounded-0 text-center" role="tooltip"><h3 class="popover-header"></h3><div class="popover-body d-flex flex-column p-0"></div></div>'>
+									<i class="fas fa-ellipsis-h"></i>
+								</a>
+							</p>
+						</div>
+						<%}%>
+							<div class="card-body">
+								<h3 class="card-title text-wrap">
+									<%=campground.name%>
+										<span class="badge badge-success">$
+											<%=campground.price%>/Night</span>
+								</h3>
+								<p class="card-text text-wrap">
+									<%=campground.description%>
+								</p>
+								<hr class="my-3 border-secondary" />
+								<p class="card-text">
+									<small class="text-muted">created by
+										<em class="text-success">
+											<%=campground.author.username%>
+										</em>, <%= moment(campground.createdAt).fromNow() %>
+									</small>
+								</p>
+							</div>
+				</div>
+				<div class="card mt-2 rounded-0 bg-dark text-white">
+					<div class="card-header text-right">
+
+						<form action="/campgrounds/<%=campground.id%>/comments" method="post">
+
+							<% if(currentUser){ %>
+								<div class="form-group m-0">
+									<textarea class="form-control p-4 border-success rounded-0 bg-dark text-success" id="new-comment-text" name="comment[text]" rows="2" placeholder="Comment"></textarea>
+								</div>
+								<%}%>
+									<button type="submit" class="btn btn-outline-success align-middle w-100 p-0 p-2 border-0 rounded-0 text-center"><i class="fas fa-comment mr-2"></i>Comment
+									</button>
+						</form>
+
+					</div>
+					<%campground.comments.forEach((comment, i)=>{%>
+
+						<div class="card-body p-0 px-3 pt-3">
+							<div class="d-flex flex-column flex-md-row align-items-start mb-3">
+								<p class="bg-dark border p-0 p-2 m-0 border-success shadow text-wrap text-break">
+									<small>
+										<i class="fas fa-user mr-2 text-success"></i>
+										<em class="text-success">
+											<%=comment.author.username%>
+										</em>
+									</small>
+									<br/>
+									<small>
+										<%=comment.text%>
+									</small>
+									<br/>
+									<small>
+										<em class="text-muted">
+											<%= moment(comment.createdAt).fromNow() %>
+										</em>
+									</small>
+								</p>
+								<%if(currentUser && comment.author.id.equals(currentUser._id)){%>
+									<div class="d-flex flex-row flex-md-column justify-content-between justify-content-md-start">
+										<a class="btn btn-outline-success ml-md-2 p-0 p-2 border-0 rounded-0" data-toggle="collapse" href="#comment<%=i%>" role="button" aria-expanded="false" aria-controls="comment<%=i%>">
+											<i class="fas fa-pencil-alt"></i>
+										</a>
+										<form action="/campgrounds/<%=campground.id%>/comments/<%=comment.id%>?_method=DELETE" method="post">
+											<button class="btn btn-outline-danger ml-md-2 p-0 p-2 border-0 rounded-0">
+												<i class="fas fa-eraser"></i>
+											</button>
+										</form>
+									</div>
+									<%}%>
+							</div>
+						</div>
+						<div class="collapse" id="comment<%=i%>">
+
+							<form class="p-3" action="/campgrounds/<%=campground.id%>/comments/<%=comment.id%>?_method=PUT" method="post">
+
+								<div class="form-group m-0">
+									<textarea class="form-control p-4 border-success rounded-0 bg-dark text-success" id="edit-comment-text" name="comment[text]" rows="2" placeholder="Comment"><%=comment.text%></textarea>
+								</div>
+								<button type="submit" class="btn btn-outline-success align-middle w-100 p-0 p-3 border-0 rounded-0 text-center">Save
+								</button>
+							</form>
+						</div>
+						<%})%>
+				</div>
+			</div>
+		</div>
+	</section>
+	<%include ../partials/footer%>

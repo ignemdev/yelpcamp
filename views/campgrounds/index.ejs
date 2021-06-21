@@ -1,0 +1,37 @@
+<%include ../partials/header%>
+	<section class="min-vh-88">
+		<div class="jumbotron jumbotron-fluid p-0 p-4 m-0 bg-dark text-light">
+			<div class="container-fluid text-center text-md-left">
+				<h1 class="text-wrap">Our campgrounds</h1>
+				<hr class="my-3 border-secondary" />
+				<p class="lead">View our hand-picked campgrounds from all over the world.</p>
+				<a href="/campgrounds/new" class="btn btn-outline-success align-middle p-0 p-3 border-0 rounded-0 text-center">
+					<i class="fas fa-plus mr-2"></i>New campground</a>
+			</div>
+		</div>
+
+		<div class="container-fluid my-4">
+			<div class="row">
+				<% campgrounds.forEach((campground)=>{ %>
+					<div class="col-md-4 col-sm-6 my-2">
+						<div class="img-thumbnail campground-card p-0 border-secondary rounded-0 bg-dark shadow text-light">
+							<img class="img-fluid" src="<%=campground.image%>" />
+							<div class="caption">
+								<h4 class="m-0 my-2 text-center">
+									<%=campground.name%>
+									<%if(moment().subtract(1,'days') < campground.createdAt){%>
+										<span class="badge badge-success">New</span>
+									<%}%>
+								</h4>
+							</div>
+							<p class="text-center m-0 mt-2">
+								<a href="/campgrounds/<%=campground.id%>" class="btn btn-outline-secondary align-middle w-100 p-0 p-2 border-0 rounded-0 text-center">
+									<i class="fas fa-ellipsis-h mr-2"></i> More info</a>
+							</p>
+						</div>
+					</div>
+					<% }) %>
+			</div>
+		</div>
+	</section>
+	<%include ../partials/footer%>

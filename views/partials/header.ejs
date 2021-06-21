@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Ignacio Morel">
+	<meta name="description" content="Review and comment our hand-picked campgrounds from all over the world.">
+	<meta name="keywords" content="yelpcamp, nature, reviews, comments, world">
+	<title>YelpCamp</title>
+	<!--favicons-->
+	<link rel="apple-touch-icon" sizes="76x76" href="/favicons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+	<link rel="manifest" href="/favicons/site.webmanifest">
+	<link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5bbad5">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="theme-color" content="#ffffff">
+	<!--bootstrap-->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<!--fontawesome-->
+	<script src="https://kit.fontawesome.com/2f5ce3c3e5.js" crossorigin="anonymous"></script>
+	<!--modernizr-->
+	<script src="https://dev2.nbeport.com/cdn/modernizr/3.5.0/modernizr.min.js" type="text/javascript" async></script>
+	<!--google fonts-->
+	<link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
+	<!--custom css-->
+	<link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body>
+	<header>
+		<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+			<a href="/" class="navbar-brand text-dark">YelpCamp</a>
+			<button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navbar-nav" aria-controls="navbar-nav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div id="navbar-nav" class="collapse navbar-collapse justify-content-end">
+				<ul class="navbar-nav">
+					<% if(!currentUser){ %>
+						<li class="nav-item">
+							<a href="/login" class="nav-link px-2">Login</a>
+						</li>
+						<li class="nav-item">
+							<a href="/register" class="nav-link px-2 bg-dark text-light">Sign Up</a>
+						</li>
+						<%} else { %>
+							<li class="nav-item dropdown">
+								<a href="#" id="navbarDropdown" class="nav-link dropdown-toggle text-success" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="fas fa-hiking"></i>
+									<%= currentUser.username %>
+								</a>
+								<div class="dropdown-menu rounded-0" aria-labelledby="navbarDropdown">
+									<a href="/logout" class="dropdown-item">
+										<i class="fas fa-running mr-2"></i>Logout
+									</a>
+								</div>
+							</li>
+							<% } %>
+				</ul>
+			</div>
+		</nav>
+	</header>
+	<%if (message.length > 0) {%>
+		<div id="messageModal" class="modal fade border-0 text-white" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header p-0 border-0 bg-dark">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true" class="p-2">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body d-flex justify-content-around align-items-center bg-dark">
+						<p class="m-0 text-<%=message[0].class%>">
+							<%=message[0].text%>
+						</p>
+						<i class="<%=message[0].icon%> display-3 text-<%=message[0].class%>"></i>
+					</div>
+					<div class="modal-footer p-0 border-0 bg-dark">
+						<button type="button" class="btn btn-dark w-100 p-3 m-0 rounded-0" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<%}%>
+			<main>
